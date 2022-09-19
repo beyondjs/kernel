@@ -63,5 +63,5 @@ bimport.resolve = ((specifier: string, dependencies: any): string => {
 
     const subpath = split.join('/');
     const version = dependencies.get(pkg);
-    return `${pkg}@${version}` + subpath ? `/${subpath}` : '';
+    return `${pkg}@${version}` + (subpath ? `/${subpath}` : '');
 });
