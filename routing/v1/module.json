@@ -1,0 +1,18 @@
+{
+  "name": "routing",
+  "platforms": [
+    "web",
+    "android",
+    "ios",
+    "node",
+    "ssr"
+  ],
+  "bundle": "ts",
+  "files": "*",
+  "excludes": [
+    "_older"
+  ],
+  "engines": [
+    "v1"
+  ]
+}

@@ -1,0 +1,43 @@
+import {Bundles, Creators} from "./bundles";
+import type {IDependencies} from '@beyond-js/kernel/bundle';
+
+export class Transversal {
+    readonly #name: string;
+    get name() {
+        return this.#name;
+    }
+
+    readonly #language: string;
+    get language() {
+        return this.#language;
+    }
+
+    get multilanguage() {
+        return !!this.#language;
+    }
+
+    readonly #bundles: Bundles;
+    get bundles() {
+        return this.#bundles;
+    }
+
+    readonly #dependencies: IDependencies;
+    get dependencies() {
+        return this.#dependencies;
+    }
+
+    constructor(name: string, language?: string, dependencies?: IDependencies) {
+        this.#name = name;
+        this.#language = language;
+        this.#dependencies = dependencies ? dependencies : new Map();
+        this.#bundles = new Bundles(this);
+    }
+
+    #initialised = false;
+
+    initialise(bundles: Creators) {
+        if (this.#initialised) throw new Error(`Transversal "${this.#name}" already initialised`);
+        this.#initialised = true;
+        this.#bundles.initialise(bundles);
+    }
+}

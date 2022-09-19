@@ -1,0 +1,42 @@
+{
+  "scope": "beyond-js",
+  "name": "kernel",
+  "version": "0.0.22",
+  "license": "MIT",
+  "modules": {
+    "path": "./"
+  },
+  "static": {
+    "includes": "vendor"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "maps": "external",
+        "npm": {
+          "platforms": {
+            "web": "web",
+            "node": "node"
+          }
+        }
+      },
+      {
+        "name": "web",
+        "platform": "web",
+        "port": 9990,
+        "ts": {
+          "compiler": "tsc"
+        }
+      },
+      {
+        "name": "backend-tsc",
+        "platform": "backend",
+        "port": 9991,
+        "ts": {
+          "compiler": "tsc"
+        }
+      }
+    ]
+  }
+}

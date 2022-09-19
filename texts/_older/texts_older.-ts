@@ -1,0 +1,106 @@
+import {Events} from "../utils/events/events";
+import {Module} from "./module";
+import type {Beyond} from "../beyond";
+
+declare function require(module: string): any;
+
+declare class BeyondLocal {
+    on(event: string, listener: any, priority?: number): this;
+}
+
+export /*bundle*/
+class ModuleTexts<TextsDeclaration> extends Events {
+    #value: TextsDeclaration;
+    get value() {
+        return this.#value;
+    }
+
+    readonly #module: Module;
+    readonly #bundle: string;
+
+    #ready = false;
+    get ready() {
+        return this.#ready;
+    }
+
+    #loading = false;
+    get loading() {
+        return this.#loading;
+    }
+
+    #language: string;
+    get language() {
+        return this.#language;
+    }
+
+    readonly #beyond: Beyond;
+    #local: BeyondLocal;
+    #hmrChanges = 0;
+
+    #url = (hmr: boolean = false) => {
+        const processor = hmr ? '[txt]' : '';
+        const changes = hmr ? `?changes=${this.#hmrChanges++}` : '';
+        return this.#module.pathname + `/${this.#bundle}${processor}.${this.#language}.js${changes}`;
+    }
+
+    #import = async (hmr: boolean = false) => {
+        const beyond = this.#beyond;
+        const transversal = this.#bundle === 'txt-menu';
+
+        if (hmr) {
+            this.#value = (await this.#beyond.import(this.#url(true))).txt;
+        }
+
+        if (transversal) {
+            await beyond.import(this.#bundle);
+
+            // Once the transversal is imported, take the texts of the bundle
+            const transversal = beyond.transversals.get(this.#bundle);
+
+            let {pathname} = this.#module;
+            pathname = pathname.startsWith('/') ? pathname.substr(1) : pathname;
+
+            const bundle = transversal.bundles.get(`${pathname}/${this.#bundle}`);
+            this.#value = bundle.exports.txt;
+        } else {
+            this.#value = (await beyond.import(this.#url(false))).txt;
+        }
+    }
+
+    #updateHMR = async () => {
+        await this.#import(true);
+        this.trigger('change');
+    }
+
+    #listenHMR = async () => {
+        const local = <BeyondLocal>(await this.#beyond.import('@beyond/local/main.js')).local;
+        local.on(`processor-update:${this.#module.id}/${this.#bundle}/txt`,
+            () => this.#updateHMR().catch(exc => console.error(exc.stack))
+        );
+        this.#local = local;
+    }
+
+    constructor(module: Module, bundle: string) {
+        super();
+        this.#module = module;
+        this.#bundle = bundle;
+        this.#beyond = <Beyond>(require('../beyond')).beyond;
+
+        // Setup HMR
+        this.#beyond.local && this.#listenHMR().catch(exc => console.error(exc.stack));
+    }
+
+    async load() {
+        if (this.#language === this.#beyond.languages.current) return;
+
+        this.#language = this.#beyond.languages.current;
+        this.#loading = true;
+        this.trigger('change');
+
+        await this.#import();
+
+        this.#ready = true;
+        this.#loading = false;
+        this.trigger('change');
+    }
+}

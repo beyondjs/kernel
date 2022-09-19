@@ -1,0 +1,8 @@
+{
+  "name": "routing",
+  "bundle": "ts",
+  "files": "*",
+  "engines": [
+    "legacy"
+  ]
+}
