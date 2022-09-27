@@ -4,19 +4,6 @@ import type {Require} from './requirejs';
 declare const amd_require: Require;
 
 /**
- * Used only in local environment to support HMR
- * Note: in AMD mode, the querystring is not allowed, so it is require to undef the bundle and import it again.
- *
- * @param {string} resource
- * @param {number} version
- * @return {Promise<*>}
- */
-export /*bundle*/ async function breload(resource: string, version?: number): Promise<any> {
-    typeof amd_require === 'function' && amd_require.undef(resource);
-    return await bimport(resource, version);
-}
-
-/**
  * Import a module, solving internally the module format (amd, esm).
  *
  * When running in a BEE, brequire and bimport are implemented by it, overriding both functions.
