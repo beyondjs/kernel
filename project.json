@@ -14,6 +14,9 @@
       {
         "name": "npm",
         "maps": "external",
+        "ports": {
+          "bundles": 9101
+        },
         "npm": {
           "platforms": {
             "web": "web",
@@ -24,7 +27,9 @@
       {
         "name": "web",
         "platform": "web",
-        "port": 9990,
+        "ports": {
+          "bundles": 9102
+        },
         "ts": {
           "compiler": "tsc"
         }
@@ -32,7 +37,9 @@
       {
         "name": "backend-tsc",
         "platform": "backend",
-        "port": 9991,
+        "ports": {
+          "bundles": 9103
+        },
         "ts": {
           "compiler": "tsc"
         }
