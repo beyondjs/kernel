@@ -52,6 +52,7 @@ class Bundle extends Map<string, Package> {
 
         this.#module = new Module(specs.module);
         this.#uri = uri;
+        this.#type = specs.type;
 
         const {multibundle, vspecifier, specifier} = this.#module;
         this.#vspecifier = multibundle ? `${vspecifier}.${name}` : vspecifier;

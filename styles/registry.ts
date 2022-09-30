@@ -4,19 +4,19 @@ import {V1Styles} from "./v1";
 class Registry {
     #registry: Map<string, LegacyStyles | V1Styles> = new Map();
 
-    register(bundle: string, value: string) {
-        if (this.#registry.has(bundle)) return;
-        const styles = value ? new LegacyStyles(bundle, value) : new V1Styles(bundle);
-        this.#registry.set(bundle, styles);
+    register(vspecifier: string, value: string) {
+        if (this.#registry.has(vspecifier)) return;
+        const styles = value ? new LegacyStyles(vspecifier, value) : new V1Styles(vspecifier);
+        this.#registry.set(vspecifier, styles);
         return styles;
     }
 
-    has(bundle: string) {
-        return this.#registry.has(bundle);
+    has(vspecifier: string) {
+        return this.#registry.has(vspecifier);
     }
 
-    get(bundle: string) {
-        return this.#registry.get(bundle);
+    get(vspecifier: string) {
+        return this.#registry.get(vspecifier);
     }
 }
 
