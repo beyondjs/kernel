@@ -10,8 +10,8 @@ class PendingPromise<T> extends Promise<T> {
             return;
         }
 
-        let resolve = undefined;
-        let reject = undefined;
+        let resolve: any = void 0;
+        let reject: any = void 0;
         super((a, b) => {
             resolve = a;
             reject = b;
