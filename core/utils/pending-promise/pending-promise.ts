@@ -22,4 +22,4 @@ class PendingPromise<T> extends Promise<T> {
 }
 
 // For backward compatibility
-typeof process !== 'object' && ((<any>window).PendingPromise = PendingPromise);
+typeof (<any>globalThis).process !== 'object' && ((<any>window).PendingPromise = PendingPromise);
