@@ -40,15 +40,23 @@ bimport.mode = (() => {
     return 'esm';
 })();
 
+const appDependencies = (() => {
+    const dependencies = (<any>globalThis).__app_package?.dependencies;
+    return new Map(dependencies);
+})();
+
 bimport.resolve = ((specifier: string, dependencies: any): string => {
     if (/^https?:\/\//.test(specifier)) return specifier;
 
     const split = specifier.split('/');
     const pkg = split[0].startsWith('@') ? `${split.shift()}/${split.shift()}` : split.shift();
 
-    if (!dependencies.has(pkg)) return specifier;
+    const version = (() => {
+        if (dependencies.has(pkg)) return dependencies.get(pkg);
+        if (appDependencies.has(pkg)) return appDependencies.get(pkg);
+    })();
+    if (!version) return specifier;
 
     const subpath = split.join('/');
-    const version = dependencies.get(pkg);
     return `${pkg}@${version}` + (subpath ? `/${subpath}` : '');
 });
