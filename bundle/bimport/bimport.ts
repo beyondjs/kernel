@@ -13,7 +13,7 @@ declare const amd_require: Require;
  * @returns {Promise<*>}
  */
 export /*bundle*/ function bimport(resource: string, version?: number): Promise<any> {
-    if (typeof amd_require === 'function') {
+    if (bimport.mode === 'amd') {
         return new Promise<any>((resolve, reject) => {
             if (typeof resource !== "string") throw 'Invalid module parameter';
             resource = resource.endsWith('.js') ? resource.slice(0, resource.length - 3) : resource;
@@ -28,6 +28,8 @@ export /*bundle*/ function bimport(resource: string, version?: number): Promise<
                 }
             );
         });
+    } else if (bimport.mode === 'sjs') {
+        return (<any>globalThis).System.import(resource + (version ? `?version=${version}` : ''));
     } else {
         return import(resource + (version ? `?version=${version}` : ''));
     }

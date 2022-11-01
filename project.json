@@ -45,5 +45,11 @@
         }
       }
     ]
+  },
+  "libraries": {
+    "imports": [
+      "@beyond-js/backend",
+      "@beyond-js/local"
+    ]
   }
 }
