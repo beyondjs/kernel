@@ -9,14 +9,17 @@
   "static": {
     "includes": "vendor"
   },
+  "libraries": {
+    "imports": [
+      "@beyond-js/backend",
+      "@beyond-js/local"
+    ]
+  },
   "deployment": {
     "distributions": [
       {
         "name": "npm",
         "maps": "external",
-        "ports": {
-          "bundles": 9101
-        },
         "npm": {
           "platforms": {
             "web": "web",
@@ -35,8 +38,8 @@
         }
       },
       {
-        "name": "backend-tsc",
-        "platform": "backend",
+        "name": "node",
+        "platform": "node",
         "ports": {
           "bundles": 9103
         },
@@ -44,12 +47,6 @@
           "compiler": "tsc"
         }
       }
-    ]
-  },
-  "libraries": {
-    "imports": [
-      "@beyond-js/backend",
-      "@beyond-js/local"
     ]
   }
 }
