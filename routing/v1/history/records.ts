@@ -8,6 +8,11 @@ interface IHistoryEntry {
 export class HistoryRecords {
     readonly #position: HistoryPosition;
 
+    readonly #valid: boolean = true;
+    get valid() {
+        return this.#valid;
+    }
+
     #entries: IHistoryEntry[] = [];
     get entries(): IHistoryEntry[] {
         return this.#entries.slice();
@@ -18,7 +23,7 @@ export class HistoryRecords {
     }
 
     get current(): IHistoryEntry {
-        return this.#entries[this.#position.value - 1]
+        return this.#entries[this.#position.value - 1];
     }
 
     get previous(): IHistoryEntry {
@@ -39,8 +44,19 @@ export class HistoryRecords {
         let parsed: IHistoryEntry[];
         try {
             const stored = sessionStorage.getItem('__beyond_navigation_records');
+
+            /**
+             * If user cleans site data, the session storage is deleted, but the history position state
+             * remains, so set the records as invalid
+             */
+            if (!stored && position.value !== void 0) {
+                this.#valid = false;
+                return;
+            }
+
             parsed = stored ? JSON.parse(stored) : [];
         } catch (exc) {
+            this.#valid = false;
             console.error('Error loading beyond navigation state', exc instanceof Error ? exc.stack : exc);
             this.#entries = [];
         }
@@ -98,6 +114,8 @@ export class HistoryRecords {
     }
 
     updateCurrentURI(uri: string): void {
+        if (!this.#valid) return;
+
         const position = this.#position.value;
 
         uri = this.#sanitizeURI(uri);
@@ -106,6 +124,7 @@ export class HistoryRecords {
     }
 
     save() {
+        if (!this.#valid) return;
         sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#entries));
     }
 }

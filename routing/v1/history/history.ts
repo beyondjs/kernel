@@ -17,8 +17,12 @@ export class BeyondHistory {
         return this.#records;
     }
 
+    get valid() {
+        return this.#records.valid;
+    }
+
     get current(): string {
-        return this.#records.current.uri;
+        return this.valid ? this.#records.current.uri : void 0;
     }
 
     #initial: number = history.length;
