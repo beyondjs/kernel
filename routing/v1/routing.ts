@@ -38,6 +38,9 @@ export class Routing extends Events {
     missing: (pathname: string) => Promise<string>;
     redirect: (uri: URI) => Promise<string>;
 
+    #resolveConfigured: any;
+    #configured = new Promise(resolve => this.#resolveConfigured = resolve);
+
     constructor() {
         super();
 
@@ -54,6 +57,7 @@ export class Routing extends Events {
             this.#mode = routingMode;
 
             this.#history = new BeyondHistory(this, RoutingMode);
+            this.#resolveConfigured();
         });
     }
 
@@ -74,13 +78,17 @@ export class Routing extends Events {
     };
 
     pushState(uri: string, state?: object): void {
-        this.#history.pushState(uri, state);
-        this.update().catch((exc) => console.error(exc.stack));
+        this.#configured.then(() => {
+            this.#history.pushState(uri, state);
+            this.update().catch((exc) => console.error(exc.stack));
+        });
     };
 
     replaceState(state: object, title: string, uri?: string): void {
-        this.#history.replaceState(state, title, uri);
-        this.update().catch((exc) => console.error(exc.stack));
+        this.#configured.then(() => {
+            this.#history.replaceState(state, title, uri);
+            this.update().catch((exc) => console.error(exc.stack));
+        });
     };
 
     // Avoid to continue the execution on asynchronous calls, when a newest call's been made
