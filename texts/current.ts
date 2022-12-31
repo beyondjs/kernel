@@ -50,9 +50,9 @@ class CurrentTexts<TextsDeclaration> extends Events implements IWidgetStore {
         return this.#current.loaded;
     }
 
-    /*
-    @deprecated
-    old versions
+    /**
+     * @deprecated
+     * @return {boolean}
      */
     get ready() {
         !this.loaded && !this.loading && this.fetch().catch((exc: Error) => console.error(exc.stack));
@@ -65,7 +65,6 @@ class CurrentTexts<TextsDeclaration> extends Events implements IWidgetStore {
 
     /**
      * Current texts constructor
-     *
      * @param {string} bundle
      */
     constructor(bundle: string) {

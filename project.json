@@ -9,12 +9,6 @@
   "static": {
     "includes": "vendor"
   },
-  "libraries": {
-    "imports": [
-      "@beyond-js/backend",
-      "@beyond-js/local"
-    ]
-  },
   "deployment": {
     "distributions": [
       {
