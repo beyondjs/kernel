@@ -63,6 +63,19 @@ class V1Styles extends Events {
             }
 
             let {uri} = this.#bundle;
+
+            /**
+             * validate if the uri belongs to the CDN
+             */
+            const regexp = new RegExp('https?://cdn.beyondjs.com', 'i');
+            if (regexp.test(uri)) {
+                const [cdn, params] = uri.split('?');
+                const qs = params.split('&');
+                const version = qs.find(i => i.includes('version'));
+
+                return cdn + '?css' + version ? `&${version}` : '';
+            }
+
             uri = uri.slice(0, uri.length - 3); // Remove the .js extension
             return `${uri}.css`;
         })();
