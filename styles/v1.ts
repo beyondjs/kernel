@@ -67,12 +67,12 @@ class V1Styles extends Events {
             /**
              * validate if the uri belongs to the CDN
              */
-            const regexp = new RegExp('https?://cdn.beyondjs.com', 'i');
+            const regexp = new RegExp('^https?://cdn.beyondjs.com', 'i');
             if (regexp.test(uri)) {
-                const {origin, searchParams} = new URL(uri);
+                const {origin, pathname, searchParams} = new URL(uri);
                 const version = searchParams.has('version') ? `&version=${searchParams.get('version')}` : '';
 
-                return origin + '?css' + version;
+                return origin + pathname + '?css' + version;
             }
 
             uri = uri.slice(0, uri.length - 3); // Remove the .js extension
