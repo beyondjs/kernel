@@ -59,7 +59,7 @@ class Module {
      * @return {Promise<*>}
      */
     async execute(action: string, params: Record<string, any>) {
-        const {backends} = await bimport('@beyond-js/backend/client');
+        const {backends} = await beyond.import('@beyond-js/backend/client');
         return await backends.execute(this.#pkg, 'legacy', this.#subpath, action, params);
     }
 }

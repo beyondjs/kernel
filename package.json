@@ -1,6 +1,5 @@
 {
-  "scope": "beyond-js",
-  "name": "kernel",
+  "name": "@beyond-js/kernel",
   "version": "0.1.8",
   "license": "MIT",
   "modules": {
@@ -11,8 +10,7 @@
   },
   "libraries": {
     "imports": [
-      "@beyond-js/backend",
-      "@beyond-js/local"
+      "@beyond-js/backend"
     ]
   },
   "deployment": {
@@ -30,6 +28,7 @@
       {
         "name": "web",
         "platform": "web",
+        "maps": "external",
         "ports": {
           "bundles": 9102
         },
@@ -49,7 +48,9 @@
       }
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "@beyond-js/backend": "~0.1.3"
+  },
   "devDependencies": {
     "@types/node": "^18.11.18"
   }
