@@ -1,6 +1,7 @@
 {
   "name": "@beyond-js/kernel",
-  "version": "0.1.8",
+  "version": "0.1.9",
+  "description": "This package contains a set of essential utility functionalities for developing projects in BeyondJS.",
   "license": "MIT",
   "modules": {
     "path": "./"
@@ -15,16 +16,6 @@
   },
   "deployment": {
     "distributions": [
-      {
-        "name": "npm",
-        "maps": "external",
-        "npm": {
-          "platforms": {
-            "web": "web",
-            "node": "node"
-          }
-        }
-      },
       {
         "name": "web",
         "platform": "web",
@@ -49,7 +40,6 @@
     ]
   },
   "dependencies": {
-    "@beyond-js/backend": "~0.1.3"
   },
   "devDependencies": {
     "@types/node": "^18.11.18"
