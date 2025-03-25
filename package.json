@@ -3,11 +3,11 @@
 	"version": "0.1.10",
 	"description": "This package contains a set of essential utility functionalities for developing projects in BeyondJS.",
 	"license": "MIT",
-	"modules": {
-		"path": "./"
-	},
 	"static": {
 		"includes": "vendor"
+	},
+	"modules": {
+		"path": "./modules"
 	},
 	"libraries": {
 		"imports": [
