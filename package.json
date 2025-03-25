@@ -1,47 +1,46 @@
 {
-  "name": "@beyond-js/kernel",
-  "version": "0.1.9",
-  "description": "This package contains a set of essential utility functionalities for developing projects in BeyondJS.",
-  "license": "MIT",
-  "modules": {
-    "path": "./"
-  },
-  "static": {
-    "includes": "vendor"
-  },
-  "libraries": {
-    "imports": [
-      "@beyond-js/backend"
-    ]
-  },
-  "deployment": {
-    "distributions": [
-      {
-        "name": "web",
-        "platform": "web",
-        "maps": "external",
-        "ports": {
-          "bundles": 9102
-        },
-        "ts": {
-          "compiler": "tsc"
-        }
-      },
-      {
-        "name": "node",
-        "platform": "node",
-        "ports": {
-          "bundles": 9103
-        },
-        "ts": {
-          "compiler": "tsc"
-        }
-      }
-    ]
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-    "@types/node": "^18.11.18"
-  }
+	"name": "@beyond-js/kernel",
+	"version": "0.1.10",
+	"description": "This package contains a set of essential utility functionalities for developing projects in BeyondJS.",
+	"license": "MIT",
+	"modules": {
+		"path": "./"
+	},
+	"static": {
+		"includes": "vendor"
+	},
+	"libraries": {
+		"imports": [
+			"@beyond-js/backend"
+		]
+	},
+	"deployment": {
+		"distributions": [
+			{
+				"name": "web",
+				"platform": "web",
+				"maps": "external",
+				"ports": {
+					"bundles": 9102
+				},
+				"ts": {
+					"compiler": "tsc"
+				}
+			},
+			{
+				"name": "node",
+				"platform": "node",
+				"ports": {
+					"bundles": 9103
+				},
+				"ts": {
+					"compiler": "tsc"
+				}
+			}
+		]
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/node": "^18.11.18"
+	}
 }
