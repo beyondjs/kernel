@@ -1,6 +1,6 @@
 {
 	"name": "@beyond-js/kernel",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"description": "This package contains a set of essential utility functionalities for developing projects in BeyondJS.",
 	"license": "MIT",
 	"static": {
