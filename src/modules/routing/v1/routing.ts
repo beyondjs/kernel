@@ -3,10 +3,11 @@ import { Events, CancellationToken } from '@beyond-js/kernel/core';
 import { BeyondHistory } from './history/history';
 
 declare const bimport: (resource: string, version?: number) => Promise<any>;
+declare const process: any;
 
 export enum RoutingMode {
 	Hash,
-	Pathname,
+	Pathname
 }
 
 const serverside = typeof process === 'object';
