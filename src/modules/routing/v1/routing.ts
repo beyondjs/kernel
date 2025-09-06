@@ -98,23 +98,33 @@ export class Routing extends Events {
 
 	// Avoid to continue the execution on asynchronous calls, when a newest call's been made
 	#cancellationToken = new CancellationToken();
-	update = async () => {
-		const { hash, pathname, search } = location;
-		const _uri = this.#mode === RoutingMode.Hash ? `/${hash.slice(1)}` : pathname + search + hash;
-		if (this.#uri?.uri === _uri) return;
+	update = async (): Promise<void> => {
+		const { hash, pathname, search } = window.location;
+
+		const stripIndex = (path: string): string => {
+			const parts = path.split('/');
+			const kept = parts.filter((seg, i) => seg.toLowerCase() !== 'index.html' || (seg === '' && i === 0));
+			let out = kept.join('/');
+			if (!out.startsWith('/')) out = '/' + out;
+			out = out.replace(/\/{2,}/g, '/');
+			return out === '' ? '/' : out;
+		};
+		let path = stripIndex(pathname);
+
+		path = this.#mode === RoutingMode.Hash ? `/${hash.slice(1)}` : `${path}${search}${hash}`;
+
+		if (this.#uri?.uri === path) return;
 
 		const cancellationTokenId = this.#cancellationToken.reset();
-		const uri = (this.#uri = new URI(_uri));
+		const uri = (this.#uri = new URI(path));
 
-		// Check for uri redirect
 		const redirected = await this.#redirect(uri);
 		if (!this.#cancellationToken.check(cancellationTokenId)) return;
-		if (redirected) return; // The page was redirected to another uri
+		if (redirected) return;
 
-		// Verify the state of the history registry to check for possible errors
-		this.#history &&
-			uri.uri !== this.#history.current &&
+		if (this.#history && uri.uri !== this.#history.current) {
 			console.error(`History current "${this.#history.current}" is not equal to actual uri "${uri.uri}"`);
+		}
 
 		this.#initialised ? this.trigger('change') : this.#resolve();
 		this.#initialised = true;

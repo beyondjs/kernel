@@ -1,15 +1,10 @@
-[1.0.0] - 2022-09-15
+# Changelog
 
-Here we would have the update steps for 1.2.4 for people to follow.
+## \[0.1.3] - 2025-09-05
 
-### Added
+### Refactor
 
--
-
-### Changed
-
--
-
-### PATCH
-
--
+-   Improved path normalization by adding `stripIndex` utility to remove `index.html` and normalize slashes
+-   Replaced usage of `location` with explicit `window.location` for clarity
+-   Ensured `pathname` is cleaned before constructing the URI
+-   Updated history check log formatting for consistency
