@@ -4,6 +4,7 @@
     "experimentalDecorators": true,
     "module": "es2020",
     "noImplicitAny": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "types": []
   }
 }
